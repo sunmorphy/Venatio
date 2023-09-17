@@ -9,13 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-        }
-        .padding()
+        HomeView().background(SwiftUI.Color.richBlack).preferredColorScheme(.dark)
     }
 }
 
@@ -23,4 +17,11 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
+}
+
+extension SwiftUI.Color {
+    static let richBlack = SwiftUI.Color("richBlackColor")
+    static let savoyBlue = SwiftUI.Color("savoyBlueColor")
+    static let amethys = SwiftUI.Color("amethysColor")
+    static let carnationPink = SwiftUI.Color("carnationPinkColor")
 }
