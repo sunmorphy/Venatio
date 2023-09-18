@@ -1,23 +1,11 @@
 //
-//  ContentView.swift
+//  View+Ext.swift
 //  Venatio
 //
-//  Created by user236913 on 9/15/23.
+//  Created by user236913 on 9/19/23.
 //
 
 import SwiftUI
-
-struct ContentView: View {
-    var body: some View {
-        HomeView().background(SwiftUI.Color.richBlack).preferredColorScheme(.dark)
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
 
 struct ViewDidLoadModifier: ViewModifier {
     @State private var didLoad = false
@@ -41,11 +29,4 @@ extension View {
     func onLoad(perform action: (() -> Void)? = nil) -> some View {
         modifier(ViewDidLoadModifier(perform: action))
     }
-}
-
-extension SwiftUI.Color {
-    static let richBlack = SwiftUI.Color("richBlackColor")
-    static let savoyBlue = SwiftUI.Color("savoyBlueColor")
-    static let amethys = SwiftUI.Color("amethysColor")
-    static let carnationPink = SwiftUI.Color("carnationPinkColor")
 }

@@ -8,8 +8,8 @@
 import Foundation
 import CoreData
 
-class GameProvider {
-    static let shared: GameProvider = GameProvider()
+class LocalDataSource {
+    static let shared: LocalDataSource = LocalDataSource()
     
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: entityName)
@@ -36,15 +36,15 @@ class GameProvider {
         return taskContext
     }
     
-    func getFavoriteGames(completion: @escaping(_ games: [Result]) -> Void) {
+    func getFavoriteGames(completion: @escaping(_ games: [Game]) -> Void) {
         let taskContext = newTaskContext()
         taskContext.perform {
             let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: entityName)
             do {
                 let results = try taskContext.fetch(fetchRequest)
-                var games: [Result] = []
+                var games: [Game] = []
                 for result in results {
-                    let game = Result(id: (result.value(forKey: "id") as? Int)!, name: (result.value(forKey: "name") as? String)!, released: (result.value(forKey: "released") as? String)!, backgroundImage: (result.value(forKey: "image") as? String)!, rating: (result.value(forKey: "rating") as? Double)!)
+                    let game = Game(id: (result.value(forKey: "id") as? Int)!, name: (result.value(forKey: "name") as? String)!, released: (result.value(forKey: "released") as? String)!, backgroundImage: (result.value(forKey: "image") as? String)!, rating: (result.value(forKey: "rating") as? Double)!)
                     
                     games.append(game)
                 }

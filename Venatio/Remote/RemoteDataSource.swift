@@ -9,13 +9,13 @@ import Foundation
 import Combine
 import Alamofire
 
-protocol NetworkServiceProtocol {
+protocol RemoteDataSourceProtocol {
     func getGames() -> AnyPublisher<GamesResponse, AFError>
     func getGameDetail(id: String) -> AnyPublisher<GameDetaiResponse, AFError>
 }
 
-class NetworkService {
-    static let shared: NetworkServiceProtocol = NetworkService()
+class RemoteDataSource {
+    static let shared: RemoteDataSource = RemoteDataSource()
     let baseUrl = "https://api.rawg.io/api"
     let parameters = [
         "key": apiKey
@@ -27,7 +27,7 @@ class NetworkService {
     private init() {}
 }
 
-extension NetworkService: NetworkServiceProtocol {
+extension RemoteDataSource: RemoteDataSourceProtocol {
     func getGames() -> AnyPublisher<GamesResponse, AFError> {
         return AF.request(URL(string: "\(baseUrl)/games")!, method: .get, parameters: parameters, headers: headers)
             .validate()

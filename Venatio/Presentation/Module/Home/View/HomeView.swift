@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct HomeView: View {
-    @ObservedObject var viewModel = HomeViewModel()
+    @EnvironmentObject var detailViewModel: DetailViewModel
+    @EnvironmentObject var favoriteViewModel: FavoriteViewModel
+    @ObservedObject var viewModel: HomeViewModel
     @State private var path = NavigationPath()
     
     var body: some View {
@@ -19,7 +21,7 @@ struct HomeView: View {
                         .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                         .fontWeight(.semibold)
                     Spacer()
-                    NavigationLink(destination: FavoriteView()) {
+                    NavigationLink(destination: FavoriteView(viewModel: favoriteViewModel)) {
                         Image(systemName: "heart.circle.fill")
                             .imageScale(.large)
                             .foregroundColor(.carnationPink)
@@ -35,11 +37,11 @@ struct HomeView: View {
                     EmptyView()
                 case .loading:
                     ProgressView()
-                case .success(let data):
+                case .success(let games):
                     ScrollView(.vertical) {
                         VStack {
-                            ForEach(data.results, id: \.id) { game in
-                                NavigationLink(destination: DetailView(id: String(game.id)), label: {
+                            ForEach(games, id: \.id) { game in
+                                NavigationLink(destination: DetailView(viewModel: detailViewModel, id: String(game.id)), label: {
                                     GameRow(game: game)
                                 })
                             }
@@ -54,11 +56,5 @@ struct HomeView: View {
         .onLoad {
             viewModel.fetchGames()
         }
-    }
-}
-
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
     }
 }

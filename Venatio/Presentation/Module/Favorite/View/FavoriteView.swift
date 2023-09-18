@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct FavoriteView: View {
-    @ObservedObject var viewModel = FavoriteViewModel()
+    @EnvironmentObject var detailViewModel: DetailViewModel
+    @ObservedObject var viewModel: FavoriteViewModel
     
     var body: some View {
         NavigationView {
@@ -29,11 +30,11 @@ struct FavoriteView: View {
                     EmptyView()
                 case .loading:
                     ProgressView()
-                case .success(let results):
+                case .success(let games):
                     ScrollView(.vertical) {
                         VStack {
-                            ForEach(results, id: \.id) { game in
-                                NavigationLink(destination: DetailView(id: String(game.id)), label: {
+                            ForEach(games, id: \.id) { game in
+                                NavigationLink(destination: DetailView(viewModel: detailViewModel, id: String(game.id)), label: {
                                     GameRow(game: game)
                                 })
                             }
@@ -47,11 +48,5 @@ struct FavoriteView: View {
         .onLoad {
             viewModel.fetchFavoriteGames()
         }
-    }
-}
-
-struct FavoriteView_Previews: PreviewProvider {
-    static var previews: some View {
-        FavoriteView()
     }
 }

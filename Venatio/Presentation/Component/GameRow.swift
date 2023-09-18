@@ -9,12 +9,12 @@ import SwiftUI
 import Kingfisher
 
 struct GameRow: View {
-    var game: Result?
+    var game: GameModel?
     
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
             SwiftUI.Color.clear.overlay {
-                KFImage.url(URL(string: game!.backgroundImage)).cacheMemoryOnly().fade(duration: 0.25).resizable()
+                KFImage.url(URL(string: game!.image)).cacheMemoryOnly().fade(duration: 0.25).resizable()
                     .aspectRatio(contentMode: .fill)
             }.frame(width: 80, height: 80).clipShape(RoundedRectangle.init(cornerRadius: 24)).shadow(color: SwiftUI.Color.white.opacity(0.25),radius: 12).clipped()
             VStack(alignment: .leading, spacing: 8) {
