@@ -8,8 +8,8 @@
 import Foundation
 
 enum DataState<T> {
-    case Idle
-    case Loading
-    case Success(T)
-    case Error(message: String)
+    case idle
+    case loading
+    case success(T)
+    case error(message: String)
 }

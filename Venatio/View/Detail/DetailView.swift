@@ -18,11 +18,11 @@ struct DetailView: View {
     var body: some View {
         ScrollView(.vertical) {
             switch viewModel.dataState {
-            case .Idle:
+            case .idle:
                 EmptyView()
-            case .Loading:
+            case .loading:
                 ProgressView()
-            case .Success(let details):
+            case .success(let details):
                 VStack(alignment: .leading) {
                     ZStack {
                         SwiftUI.Color.clear.overlay {
@@ -33,7 +33,7 @@ struct DetailView: View {
                     }.frame(height: 256)
                     VStack(alignment: .leading, spacing: 16) {
                         VStack(alignment: .leading) {
-                            HStack(alignment: .top) {
+                            HStack(alignment: .center) {
                                 HStack(spacing: 8) {
                                     Image(systemName: "calendar").renderingMode(.template)
                                     Text(formatDateToMedium(dateFormat: "yyyy-MM-dd",date: details.released)).font(Font.caption2)
@@ -49,13 +49,21 @@ struct DetailView: View {
                         Text(details.descriptionRaw).font(Font.subheadline).foregroundColor(.white.opacity(0.8))
                     }.padding(EdgeInsets.init(top: 12, leading: 18, bottom: 12, trailing: 18))
                     Spacer()
-                }.foregroundColor(SwiftUI.Color.white)
-            case .Error(message: let message):
+                }.foregroundColor(SwiftUI.Color.white).toolbar {
+                    Button(action: {
+                        viewModel.isGameFavorited ? viewModel.removeFavoriteGame(id: details.id) : viewModel.addFavoriteGame(game: Result(id: details.id, name: details.name, released: details.released, backgroundImage: details.backgroundImage, rating: details.rating))
+                    }, label: {
+                        Image(systemName: viewModel.isGameFavorited ? "heart.fill" : "heart")
+                            .imageScale(.large)
+                            .foregroundColor(.carnationPink)
+                    })
+                }
+            case .error(message: let message):
                 ErrorView(message: message)
             }
         }
-        .onAppear {
-            viewModel.fetchGameDetail(id: id)
+        .onLoad {
+            viewModel.fetchFavoriteGames(id: id)
         }
     }
 }

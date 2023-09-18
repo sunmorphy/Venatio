@@ -18,7 +18,7 @@ class NetworkService {
     static let shared: NetworkServiceProtocol = NetworkService()
     let baseUrl = "https://api.rawg.io/api"
     let parameters = [
-        "key": "ad1fb0551f7f4f1c86eb1809add7b35a"
+        "key": apiKey
     ]
     let headers: HTTPHeaders = [
         "Accept": "application/json"

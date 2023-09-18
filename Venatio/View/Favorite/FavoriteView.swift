@@ -1,44 +1,38 @@
 //
-//  HomeView.swift
+//  FavoriteView.swift
 //  Venatio
 //
-//  Created by user236913 on 9/15/23.
+//  Created by user236913 on 9/17/23.
 //
 
 import SwiftUI
 
-struct HomeView: View {
-    @ObservedObject var viewModel = HomeViewModel()
-    @State private var path = NavigationPath()
+struct FavoriteView: View {
+    @ObservedObject var viewModel = FavoriteViewModel()
     
     var body: some View {
         NavigationView {
             VStack {
                 HStack(alignment: .center, content: {
-                    Text("Venatio")
+                    Text("Favorite")
                         .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                         .fontWeight(.semibold)
                     Spacer()
-                    NavigationLink(destination: FavoriteView()) {
-                        Image(systemName: "heart.circle.fill")
-                            .imageScale(.large)
-                            .foregroundColor(.carnationPink)
-                    }
-                    NavigationLink(destination: AboutView()) {
-                        Image(systemName: "info.circle.fill")
-                            .imageScale(.large)
-                            .foregroundColor(.savoyBlue)
-                    }
+                    Button(action: {
+                        viewModel.fetchFavoriteGames()
+                    }, label: {
+                        Image(systemName: "arrow.clockwise.circle.fill").renderingMode(.template)
+                    })
                 }).padding()
                 switch viewModel.dataState {
                 case .idle:
                     EmptyView()
                 case .loading:
                     ProgressView()
-                case .success(let data):
+                case .success(let results):
                     ScrollView(.vertical) {
                         VStack {
-                            ForEach(data.results, id: \.id) { game in
+                            ForEach(results, id: \.id) { game in
                                 NavigationLink(destination: DetailView(id: String(game.id)), label: {
                                     GameRow(game: game)
                                 })
@@ -50,15 +44,14 @@ struct HomeView: View {
                 }
             }
         }
-        .navigationTitle("Home")
         .onLoad {
-            viewModel.fetchGames()
+            viewModel.fetchFavoriteGames()
         }
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
+struct FavoriteView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        FavoriteView()
     }
 }
