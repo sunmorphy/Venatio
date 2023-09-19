@@ -5,8 +5,8 @@ workflows:
       xcode: latest
       cocoapods: default
       vars:
-          XCODE_PROJECT: "TriangleApp.xcodeproj"
-          XCODE_SCHEME: "TriangleApp"
+          XCODE_PROJECT: "Venatio.xcodeproj"
+          XCODE_SCHEME: "Venatio"
     scripts:
       - name: Run tests
         script: |
